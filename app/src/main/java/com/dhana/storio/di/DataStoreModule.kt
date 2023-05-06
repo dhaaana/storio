@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.dhana.storio.data.local.datastore.SessionPreferences
+import com.dhana.storio.data.local.datastore.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ class DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideSessionPreferences(dataStore: DataStore<Preferences>): SessionPreferences {
-        return SessionPreferences(dataStore)
+    fun provideUserPreferences(dataStore: DataStore<Preferences>): UserPreferences {
+        return UserPreferences(dataStore)
     }
 }

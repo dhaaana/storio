@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SessionPreferences (private val dataStore: DataStore<Preferences>) {
+class UserPreferences (private val dataStore: DataStore<Preferences>) {
 
     private val USER_ID_KEY = stringPreferencesKey("user_id")
     private val USER_NAME_KEY = stringPreferencesKey("user_name")
@@ -39,13 +39,21 @@ class SessionPreferences (private val dataStore: DataStore<Preferences>) {
         }
     }
 
+    suspend fun clearUserData() {
+        dataStore.edit { preferences ->
+            preferences.remove(USER_ID_KEY)
+            preferences.remove(USER_NAME_KEY)
+            preferences.remove(USER_TOKEN_KEY)
+        }
+    }
+
     companion object {
         @Volatile
-        private var INSTANCE: SessionPreferences? = null
+        private var INSTANCE: UserPreferences? = null
 
-        fun getInstance(dataStore: DataStore<Preferences>): SessionPreferences {
+        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences {
             return INSTANCE ?: synchronized(this) {
-                val instance = SessionPreferences(dataStore)
+                val instance = UserPreferences(dataStore)
                 INSTANCE = instance
                 instance
             }

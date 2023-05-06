@@ -12,7 +12,20 @@
         android:theme="@style/Theme.Storio"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.detail.DetailActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".ui.activity.splash.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
