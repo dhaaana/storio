@@ -15,6 +15,7 @@ import com.dhana.storio.databinding.ActivityHomeBinding
 import com.dhana.storio.ui.activity.add.AddStoryActivity
 import com.dhana.storio.ui.activity.detail.DetailActivity
 import com.dhana.storio.ui.activity.login.LoginActivity
+import com.dhana.storio.ui.activity.maps.MapsActivity
 import com.dhana.storio.ui.activity.register.RegisterActivity
 import com.dhana.storio.ui.adapter.StoryListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +58,11 @@ class HomeActivity : AppCompatActivity() {
 
         binding.btnAddStory.setOnClickListener {
             val intent = Intent(this@HomeActivity, AddStoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnMapPage.setOnClickListener {
+            val intent = Intent(this@HomeActivity, MapsActivity::class.java)
             startActivity(intent)
         }
     }

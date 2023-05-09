@@ -3,6 +3,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
 
     // Hilt
     implementation 'com.google.dagger:hilt-android:2.44'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     kapt 'com.google.dagger:hilt-compiler:2.44'
 
     // Retrofit

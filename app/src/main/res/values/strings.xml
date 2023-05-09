@@ -17,6 +17,7 @@
     <string name="camera_button_text">Camera</string>
 
     <string name="story_iv_desc">Story Image</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 
 </resources>

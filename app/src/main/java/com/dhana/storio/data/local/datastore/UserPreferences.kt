@@ -13,18 +13,6 @@ class UserPreferences (private val dataStore: DataStore<Preferences>) {
     private val USER_NAME_KEY = stringPreferencesKey("user_name")
     private val USER_TOKEN_KEY = stringPreferencesKey("user_token")
 
-    fun getUserId(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[USER_ID_KEY]
-        }
-    }
-
-    fun getUserName(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[USER_NAME_KEY]
-        }
-    }
-
     fun getUserToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
             preferences[USER_TOKEN_KEY]
@@ -44,19 +32,6 @@ class UserPreferences (private val dataStore: DataStore<Preferences>) {
             preferences.remove(USER_ID_KEY)
             preferences.remove(USER_NAME_KEY)
             preferences.remove(USER_TOKEN_KEY)
-        }
-    }
-
-    companion object {
-        @Volatile
-        private var INSTANCE: UserPreferences? = null
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences {
-            return INSTANCE ?: synchronized(this) {
-                val instance = UserPreferences(dataStore)
-                INSTANCE = instance
-                instance
-            }
         }
     }
 }

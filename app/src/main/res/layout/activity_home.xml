@@ -17,6 +17,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
+        android:id="@+id/btnMapPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_button_background"
+        android:src="@drawable/ic_add"
+        android:padding="15dp"
+        android:layout_margin="25dp"
+        android:contentDescription="@string/add_button_text"
+      app:layout_constraintBottom_toTopOf="@id/btnAddStory"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ImageButton
         android:id="@+id/btnAddStory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
