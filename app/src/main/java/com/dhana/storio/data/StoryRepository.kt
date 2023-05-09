@@ -14,10 +14,11 @@ class StoryRepository @Inject constructor(private val apiService: ApiService) {
         description: String,
         photo: MultipartBody.Part,
         lat: Double?,
-        lon: Double?
+        lon: Double?,
+        authHeader: String
     ): Flow<Result<AddStoryResponse>> {
         return flow {
-            val response = apiService.addNewStory(description, photo, lat, lon)
+            val response = apiService.addNewStory(description, photo, lat, lon, authHeader)
             emit(Result.success(response))
         }.catch { throwable ->
             emit(Result.failure(throwable))

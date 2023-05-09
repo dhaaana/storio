@@ -9,6 +9,7 @@
     <string name="register_button_text">Register</string>
     <string name="register_hint">Don\'t have an account?</string>
     <string name="login_hint">Already have an account?</string>
+    <string name="add_story_description_hint">Description</string>
 
     <string name="add_button_text">Add Story</string>
     <string name="gallery_button_text">Gallery</string>

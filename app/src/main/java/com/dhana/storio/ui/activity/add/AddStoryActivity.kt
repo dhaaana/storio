@@ -12,13 +12,17 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.dhana.storio.databinding.ActivityAddStoryBinding
 import com.dhana.storio.ui.activity.camera.CameraActivity
+import com.dhana.storio.ui.activity.home.HomeActivity
 import com.dhana.storio.utils.reduceFileImage
 import com.dhana.storio.utils.rotateFile
 import com.dhana.storio.utils.uriToFile
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -26,6 +30,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
+@AndroidEntryPoint
 class AddStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddStoryBinding
@@ -34,7 +39,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     companion object {
         const val CAMERA_X_RESULT = 200
-
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
@@ -45,7 +49,18 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Add Story"
+
+        if (!allPermissionsGranted()) {
+            ActivityCompat.requestPermissions(
+                this,
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+
         binding.buttonCamera.setOnClickListener { startCameraX() }
+        binding.buttonGallery.setOnClickListener { startGallery() }
 
         binding.buttonAdd.setOnClickListener {
             if (getFile != null) {
@@ -57,7 +72,7 @@ class AddStoryActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this@AddStoryActivity,
-                    "Silakan masukkan berkas gambar terlebih dahulu.",
+                    "Please enter file first.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -71,16 +86,25 @@ class AddStoryActivity : AppCompatActivity() {
         lon: Double?
     ) {
         lifecycleScope.launch {
-            try {
-                viewModel.addNewStory(description, photo, lat, lon).collect { result ->
-                    if (result.isSuccess) {
-                        // Story submitted successfully, handle success case
-                    } else {
-                        // Story submission failed, handle error case
+            viewModel.getUserToken().collect { token ->
+                if (token !== null) {
+                    val bearerToken = "Bearer $token"
+                    try {
+                        viewModel.addNewStory(description, photo, lat, lon, bearerToken).collect { result ->
+                            if (result.isSuccess) {
+                                showToast("Story successfully uploaded")
+                                val intent = Intent(this@AddStoryActivity, HomeActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                showToast("Add Story Failed: ${result.exceptionOrNull()?.message}")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        showToast("Add Story Failed: ${e.message}")
                     }
+                } else {
+                    showToast("Add Story Failed: No Token")
                 }
-            } catch (e: Exception) {
-                // Exception occurred, handle error case
             }
         }
     }
@@ -165,6 +189,10 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
 

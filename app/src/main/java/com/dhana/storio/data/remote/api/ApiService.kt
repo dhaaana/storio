@@ -34,7 +34,8 @@ interface ApiService {
         @Part("description") description: String,
         @Part photo: MultipartBody.Part,
         @Part("lat") lat: Double?,
-        @Part("lon") lon: Double?
+        @Part("lon") lon: Double?,
+        @Header("Authorization") authHeader: String,
     ): AddStoryResponse
 
     @POST("stories/guest")
