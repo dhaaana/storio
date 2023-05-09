@@ -2,19 +2,19 @@
     <string name="app_name">Storio</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="name_edit_text_hint">Name</string>
     <string name="email_edit_text_hint">Email</string>
     <string name="login_button_text">Login</string>
+    <string name="register_button_text">Register</string>
+    <string name="register_hint">Don\'t have an account?</string>
+    <string name="login_hint">Already have an account?</string>
+
+    <string name="add_button_text">Add Story</string>
+    <string name="gallery_button_text">Gallery</string>
+    <string name="camera_button_text">Camera</string>
+
+    <string name="story_iv_desc">Story Image</string>
+
+
 </resources>

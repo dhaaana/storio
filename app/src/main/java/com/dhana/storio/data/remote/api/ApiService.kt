@@ -13,7 +13,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @POST("/register")
+    @POST("register")
     @FormUrlEncoded
     suspend fun registerUser(
         @Field("name") name: String,
@@ -21,7 +21,7 @@ interface ApiService {
         @Field("password") password: String
     ): RegisterResponse
 
-    @POST("/login")
+    @POST("login")
     @FormUrlEncoded
     suspend fun loginUser(
         @Field("email") email: String,
@@ -29,7 +29,7 @@ interface ApiService {
     ): LoginResponse
 
     @Multipart
-    @POST("/stories")
+    @POST("stories")
     suspend fun addNewStory(
         @Part("description") description: String,
         @Part photo: MultipartBody.Part,
@@ -37,7 +37,7 @@ interface ApiService {
         @Part("lon") lon: Double?
     ): AddStoryResponse
 
-    @POST("/stories/guest")
+    @POST("stories/guest")
     @Multipart
     suspend fun addNewStoryGuest(
         @Part("description") description: String,
@@ -46,7 +46,7 @@ interface ApiService {
         @Part("lon") lon: Double?
     ): AddStoryResponse
 
-    @GET("/stories")
+    @GET("stories")
     suspend fun getAllStories(
         @Query("page") page: Int?,
         @Query("size") size: Int?,
@@ -54,7 +54,7 @@ interface ApiService {
         @Header("Authorization") authHeader: String
     ): StoriesResponse
 
-    @GET("/stories/{id}")
+    @GET("stories/{id}")
     suspend fun getStoryDetail(
         @Path("id") id: String,
         @Header("Authorization") authHeader: String

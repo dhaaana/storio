@@ -8,9 +8,11 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.dhana.storio.databinding.ActivityRegisterBinding
 import com.dhana.storio.ui.activity.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
@@ -21,6 +23,15 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
+
+        playAnimation()
+
+        binding.toLoginButton.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.loginButton.setOnClickListener {
             val name = binding.edRegisterName.text.toString()
@@ -55,6 +66,43 @@ class RegisterActivity : AppCompatActivity() {
                 // Exception occurred, show error message
                 showToast("Register Failed: ${throwable.message}")
             }
+        }
+    }
+
+    private fun playAnimation() {
+        binding.appName.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.edRegisterName.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.edRegisterEmail.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.edRegisterPassword.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.loginButton.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.toLoginButton.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
+        }
+
+        binding.tvLoginHint.apply {
+            alpha = 0f
+            animate().alpha(1f).duration = 500
         }
     }
 

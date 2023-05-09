@@ -4,10 +4,14 @@ import com.dhana.storio.data.local.datastore.UserPreferences
 import com.dhana.storio.data.remote.api.ApiService
 import com.dhana.storio.data.remote.response.LoginResponse
 import com.dhana.storio.data.remote.response.RegisterResponse
+import com.dhana.storio.utils.handleError
+import com.google.gson.Gson
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -23,7 +27,7 @@ class UserRepository @Inject constructor(
             val response = apiService.registerUser(name, email, password)
             emit(Result.success(response))
         }.catch { throwable ->
-            emit(Result.failure(throwable))
+            emit(Result.failure(Throwable(handleError(throwable))))
         }
     }
 
@@ -37,7 +41,7 @@ class UserRepository @Inject constructor(
             )
             emit(Result.success(response))
         }.catch { throwable ->
-            emit(Result.failure(throwable))
+            emit(Result.failure(Throwable(handleError(throwable))))
         }
     }
 
@@ -46,8 +50,12 @@ class UserRepository @Inject constructor(
             userPreferences.clearUserData()
             emit(Result.success(Unit))
         }.catch { throwable ->
-            emit(Result.failure(throwable))
+            emit(Result.failure(Throwable(handleError(throwable))))
         }
+    }
+
+    fun getUserToken(): Flow<String?> {
+        return userPreferences.getUserToken()
     }
 
     fun isUserLoggedIn(): Flow<Boolean> {
