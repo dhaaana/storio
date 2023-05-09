@@ -23,4 +23,8 @@ class HomeViewModel @Inject constructor(private val storyRepository: StoryReposi
     fun getUserToken(): Flow<String?> {
         return userRepository.getUserToken()
     }
+
+    suspend fun logOut(): Flow<Result<Unit>> {
+        return userRepository.logout()
+    }
 }

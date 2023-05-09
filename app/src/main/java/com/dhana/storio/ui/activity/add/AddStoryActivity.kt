@@ -68,7 +68,11 @@ class AddStoryActivity : AppCompatActivity() {
                 val photo = processImage()
                 val lat = 0.0
                 val lon = 0.0
-                submitStory(description, photo, lat, lon)
+                if (description != "") {
+                    submitStory(description, photo, lat, lon)
+                } else {
+                    showToast("Please enter description first")
+                }
             } else {
                 Toast.makeText(
                     this@AddStoryActivity,
@@ -94,6 +98,7 @@ class AddStoryActivity : AppCompatActivity() {
                             if (result.isSuccess) {
                                 showToast("Story successfully uploaded")
                                 val intent = Intent(this@AddStoryActivity, HomeActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(intent)
                             } else {
                                 showToast("Add Story Failed: ${result.exceptionOrNull()?.message}")

@@ -22,6 +22,8 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Detail Story"
+
         val storyId = intent.getStringExtra(EXTRA_STORY_ID)
 
         lifecycleScope.launch {
