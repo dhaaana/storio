@@ -17,6 +17,7 @@ import com.dhana.storio.ui.activity.detail.DetailActivity
 import com.dhana.storio.ui.activity.login.LoginActivity
 import com.dhana.storio.ui.activity.maps.MapsActivity
 import com.dhana.storio.ui.activity.register.RegisterActivity
+import com.dhana.storio.ui.adapter.LoadingStateAdapter
 import com.dhana.storio.ui.adapter.StoryListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -37,21 +38,24 @@ class HomeActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.getUserToken().collect { token ->
-                if (token !== null) {
-                    val bearerToken = "Bearer $token"
-                    viewModel.getAllStories(
-                        1,
-                        10,
-                        0,
-                        bearerToken
-                    ).collectLatest { result ->
-                        if (result.isSuccess) {
-                            val storiesResponse = result.getOrThrow()
-                            setStoryListData(storiesResponse.stories)
-                        } else {
-                            showToast("Home Failed: ${result.exceptionOrNull()?.message}")
-                        }
-                    }
+//                if (token !== null) {
+//                    val bearerToken = "Bearer $token"
+//                    viewModel.getAllStories(
+//                        1,
+//                        10,
+//                        0,
+//                        bearerToken
+//                    ).collectLatest { result ->
+//                        if (result.isSuccess) {
+//                            val storiesResponse = result.getOrThrow()
+//                            setStoryListData(storiesResponse.stories)
+//                        } else {
+//                            showToast("Home Failed: ${result.exceptionOrNull()?.message}")
+//                        }
+//                    }
+//                }
+                if (token != null) {
+                    setStoryListData(token)
                 }
             }
         }
@@ -81,12 +85,38 @@ class HomeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setStoryListData(storyList: List<Story>?) {
+    private fun setStoryListDataOld(storyList: List<Story>?) {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
 
-        val adapter = StoryListAdapter(storyList ?: emptyList())
+        val adapter = StoryListAdapter()
         binding.rvStory.adapter = adapter
+        adapter.setOnItemClickCallback(object : StoryListAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Story) {
+                val detailIntent = Intent(this@HomeActivity, DetailActivity::class.java)
+                detailIntent.putExtra(DetailActivity.EXTRA_STORY_ID, data.id)
+                startActivity(detailIntent)
+            }
+        })
+    }
+
+    private fun setStoryListData(token: String) {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvStory.layoutManager = layoutManager
+
+        val adapter = StoryListAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        viewModel.getAllStories(
+             "Bearer $token"
+        ).observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
+
         adapter.setOnItemClickCallback(object : StoryListAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Story) {
                 val detailIntent = Intent(this@HomeActivity, DetailActivity::class.java)

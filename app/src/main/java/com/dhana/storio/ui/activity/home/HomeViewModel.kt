@@ -1,9 +1,14 @@
 package com.dhana.storio.ui.activity.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.dhana.storio.data.StoryRepository
 import com.dhana.storio.data.UserRepository
 import com.dhana.storio.data.remote.response.StoriesResponse
+import com.dhana.storio.data.remote.response.Story
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,12 +17,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val storyRepository: StoryRepository, private val userRepository: UserRepository) : ViewModel() {
 
     fun getAllStories(
-        page: Int?,
-        size: Int?,
-        location: Int = 0,
         authHeader: String
-    ): Flow<Result<StoriesResponse>> {
-        return storyRepository.getAllStories(page, size, location, authHeader)
+    ): LiveData<PagingData<Story>> {
+        return storyRepository.getAllStories(authHeader).cachedIn(viewModelScope)
     }
 
     fun getUserToken(): Flow<String?> {

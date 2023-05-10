@@ -17,7 +17,7 @@ class MapsViewModel @Inject constructor(private val storyRepository: StoryReposi
         location: Int = 0,
         authHeader: String
     ): Flow<Result<StoriesResponse>> {
-        return storyRepository.getAllStories(page, size, location, authHeader)
+        return storyRepository.getAllStoriesWithoutPaging(page, size, location, authHeader)
     }
 
     fun getUserToken(): Flow<String?> {

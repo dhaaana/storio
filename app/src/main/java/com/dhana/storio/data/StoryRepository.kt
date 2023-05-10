@@ -1,5 +1,10 @@
 package com.dhana.storio.data
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dhana.storio.data.remote.api.ApiService
 import com.dhana.storio.data.remote.response.*
 import kotlinx.coroutines.flow.Flow
@@ -25,21 +30,7 @@ class StoryRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    suspend fun addNewStoryGuest(
-        description: String,
-        photo: MultipartBody.Part,
-        lat: Double?,
-        lon: Double?
-    ): Flow<Result<AddStoryResponse>> {
-        return flow {
-            val response = apiService.addNewStoryGuest(description, photo, lat, lon)
-            emit(Result.success(response))
-        }.catch { throwable ->
-            emit(Result.failure(throwable))
-        }
-    }
-
-    fun getAllStories(
+    fun getAllStoriesWithoutPaging(
         page: Int?,
         size: Int?,
         location: Int = 0,
@@ -51,6 +42,19 @@ class StoryRepository @Inject constructor(private val apiService: ApiService) {
         }.catch { throwable ->
             emit(Result.failure(throwable))
         }
+    }
+
+    fun getAllStories(
+        authHeader: String
+    ): LiveData<PagingData<Story>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService, authHeader)
+            }
+        ).liveData
     }
 
     fun getStoryDetail(
