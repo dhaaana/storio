@@ -2,19 +2,16 @@ package com.dhana.storio.ui.activity.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dhana.storio.databinding.ActivitySplashBinding
 import com.dhana.storio.ui.activity.home.HomeActivity
 import com.dhana.storio.ui.activity.login.LoginActivity
-import com.dhana.storio.ui.activity.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")

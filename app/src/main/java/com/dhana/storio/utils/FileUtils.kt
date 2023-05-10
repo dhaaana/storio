@@ -9,11 +9,7 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
 import com.dhana.storio.R
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 

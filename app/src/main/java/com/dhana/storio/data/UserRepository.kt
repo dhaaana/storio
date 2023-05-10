@@ -5,13 +5,10 @@ import com.dhana.storio.data.remote.api.ApiService
 import com.dhana.storio.data.remote.response.LoginResponse
 import com.dhana.storio.data.remote.response.RegisterResponse
 import com.dhana.storio.utils.handleError
-import com.google.gson.Gson
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(

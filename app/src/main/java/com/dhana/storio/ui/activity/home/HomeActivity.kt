@@ -16,12 +16,9 @@ import com.dhana.storio.ui.activity.add.AddStoryActivity
 import com.dhana.storio.ui.activity.detail.DetailActivity
 import com.dhana.storio.ui.activity.login.LoginActivity
 import com.dhana.storio.ui.activity.maps.MapsActivity
-import com.dhana.storio.ui.activity.register.RegisterActivity
 import com.dhana.storio.ui.adapter.LoadingStateAdapter
 import com.dhana.storio.ui.adapter.StoryListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

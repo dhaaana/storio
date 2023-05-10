@@ -1,12 +1,9 @@
 package com.dhana.storio.ui.activity.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dhana.storio.MainDispatcherRule
 import com.dhana.storio.data.StoryRepository
@@ -14,6 +11,7 @@ import com.dhana.storio.data.UserRepository
 import com.dhana.storio.data.remote.response.Story
 import com.dhana.storio.ui.adapter.StoryListAdapter
 import com.dhana.storio.utils.StoryPagingSourceTestUtils
+import com.dhana.storio.utils.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -24,7 +22,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import com.dhana.storio.utils.getOrAwaitValue
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
