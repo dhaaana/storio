@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.dhana.storio.R
 import com.dhana.storio.databinding.ActivityLoginBinding
 import com.dhana.storio.ui.activity.home.HomeActivity
 import com.dhana.storio.ui.activity.register.RegisterActivity
@@ -45,19 +46,27 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(email: String, password: String) {
         lifecycleScope.launch {
+            binding.loginButton.isEnabled = false
+            binding.loginButton.setText(R.string.loading_text)
             try {
                 viewModel.loginUser(email, password).collect { result ->
                     if (result.isSuccess) {
+                        binding.loginButton.isEnabled = true
+                        binding.loginButton.setText(R.string.login_button_text)
                         showToast("Login Successful")
                         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
+                        binding.loginButton.isEnabled = true
+                        binding.loginButton.setText(R.string.login_button_text)
                         showToast("Login Failed: ${result.exceptionOrNull()?.message}")
                     }
                 }
             } catch (e: Exception) {
                 // Exception occurred, show error message
+                binding.loginButton.isEnabled = true
+                binding.loginButton.setText(R.string.login_button_text)
                 showToast("Login Failed: ${e.message}")
             }
         }

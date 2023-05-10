@@ -61,31 +61,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
 
-        //getMyLocation()
         setMapStyle()
         getStoriesByLocation()
     }
-
-//    private val requestPermissionLauncher =
-//        registerForActivityResult(
-//            ActivityResultContracts.RequestPermission()
-//        ) { isGranted: Boolean ->
-//            if (isGranted) {
-//                getMyLocation()
-//            }
-//        }
-//
-//    private fun getMyLocation() {
-//        if (ContextCompat.checkSelfPermission(
-//                this.applicationContext,
-//                android.Manifest.permission.ACCESS_FINE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            mMap.isMyLocationEnabled = true
-//        } else {
-//            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-//        }
-//    }
 
     private fun setMapStyle() {
         try {
@@ -99,28 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    data class TourismPlace(
-        val name: String,
-        val latitude: Double,
-        val longitude: Double
-    )
-
     private fun addStoryLocationMarker(storyList: List<Story>) {
-        val tourismPlace = listOf(
-            TourismPlace("Floating Market Lembang", -6.8168954, 107.6151046),
-            TourismPlace("The Great Asia Africa", -6.8331128, 107.6048483),
-            TourismPlace("Rabbit Town", -6.8668408, 107.608081),
-            TourismPlace("Alun-Alun Kota Bandung", -6.9218518, 107.6025294),
-            TourismPlace("Orchid Forest Cikole", -6.780725, 107.637409),
-        )
-//        tourismPlace.forEach { tourism ->
-//            val latLng = LatLng(tourism.latitude, tourism.longitude)
-//            mMap.addMarker(
-//                MarkerOptions().position(latLng).title(tourism.name)
-//            )
-//            boundsBuilder.include(latLng)
-//        }
-
         storyList.forEach {
             if (it.lat != null && it.lon != null) {
                 val latLng = LatLng(it.lat, it.lon)
