@@ -1,10 +1,10 @@
 package com.dhana.storio.ui.activity.register
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dhana.storio.R
 import com.dhana.storio.databinding.ActivityRegisterBinding
@@ -34,6 +34,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.edRegisterPassword.setSubmitButton(binding.registerButton)
         binding.registerButton.setOnClickListener {
             val name = binding.edRegisterName.text.toString()
             val email = binding.edRegisterEmail.text.toString()
@@ -43,12 +44,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun register(name:String, email: String, password: String) {
-        lifecycleScope.launch {
+        val job = lifecycleScope.launch {
             binding.registerButton.isEnabled = false
             binding.registerButton.setText(R.string.loading_text)
             try {
                 val result = viewModel.registerUser(name, email, password).single()
                 if (result.isSuccess) {
+                    // Register successful, navigate to home screen
                     binding.registerButton.isEnabled = true
                     binding.registerButton.setText(R.string.register_button_text)
                     showToast("Register Successful")
@@ -56,14 +58,25 @@ class RegisterActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
+                    // Register failed, show error message
                     binding.registerButton.isEnabled = true
                     binding.registerButton.setText(R.string.register_button_text)
                     showToast("Register Failed: ${result.exceptionOrNull()?.message}")
                 }
             } catch (e: Exception) {
+                // Exception occurred, show error message
                 binding.registerButton.isEnabled = true
                 binding.registerButton.setText(R.string.register_button_text)
                 showToast("Register Failed: ${e.message}")
+            }
+        }
+
+        job.invokeOnCompletion { throwable ->
+            if (throwable != null && !job.isCancelled) {
+                // Exception occurred, show error message
+                binding.registerButton.isEnabled = true
+                binding.registerButton.setText(R.string.register_button_text)
+                showToast("Register Failed: ${throwable.message}")
             }
         }
     }

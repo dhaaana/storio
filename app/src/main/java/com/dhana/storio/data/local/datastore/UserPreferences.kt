@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.map
 
 class UserPreferences (private val dataStore: DataStore<Preferences>) {
 
-    private val USER_ID_KEY = stringPreferencesKey("user_id")
-    private val USER_NAME_KEY = stringPreferencesKey("user_name")
-    private val USER_TOKEN_KEY = stringPreferencesKey("user_token")
-
+    companion object {
+        private val USER_ID_KEY = stringPreferencesKey("user_id")
+        private val USER_NAME_KEY = stringPreferencesKey("user_name")
+        private val USER_TOKEN_KEY = stringPreferencesKey("user_token")
+    }
     fun getUserToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
             preferences[USER_TOKEN_KEY]

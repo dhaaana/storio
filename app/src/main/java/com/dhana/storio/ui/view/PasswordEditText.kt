@@ -7,16 +7,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dhana.storio.R
 
 class PasswordEditText : AppCompatEditText {
-
-    private lateinit var showPasswordButtonImage: Drawable
-    private lateinit var hidePasswordButtonImage: Drawable
-    private var isPasswordVisible = true
+    private var submitButton: View? = null
 
     constructor(context: Context) : super(context) {
         init()
@@ -26,7 +25,11 @@ class PasswordEditText : AppCompatEditText {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -39,9 +42,6 @@ class PasswordEditText : AppCompatEditText {
     }
 
     private fun init() {
-        showPasswordButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_home_black_24dp) as Drawable
-        hidePasswordButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_notifications_black_24dp) as Drawable
-
         transformationMethod = PasswordTransformationMethod.getInstance()
 
         addTextChangedListener(object : TextWatcher {
@@ -50,18 +50,23 @@ class PasswordEditText : AppCompatEditText {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                error = if (s.length < 8) {
-                    "Password must be 8 character"
+                if (s.length < 8) {
+                    error = "Password must be 8 character"
+                    submitButton?.isEnabled = false
                 } else {
-                    null
+                    error = null
+                    submitButton?.isEnabled = true
                 }
-
             }
 
             override fun afterTextChanged(s: Editable) {
-                // Do nothing.
             }
         })
+    }
+
+    fun setSubmitButton(button: View) {
+        submitButton = button
+        submitButton?.isEnabled = text?.length!! >= 8
     }
 
 }

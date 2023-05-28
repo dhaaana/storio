@@ -1,10 +1,13 @@
 package com.dhana.storio.ui.activity.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dhana.storio.R
 import com.dhana.storio.databinding.ActivityLoginBinding
@@ -34,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.edLoginPassword.setSubmitButton(binding.loginButton)
         binding.loginButton.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
@@ -61,9 +65,9 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                // Exception occurred, show error message
                 binding.loginButton.isEnabled = true
                 binding.loginButton.setText(R.string.login_button_text)
+                // Exception occurred, show error message
                 showToast("Login Failed: ${e.message}")
             }
         }

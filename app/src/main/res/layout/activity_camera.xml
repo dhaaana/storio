@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/camera_content_desc"
         android:background="@drawable/circle_button_background"
         app:srcCompat="@drawable/ic_camera" />
 
@@ -31,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="@+id/viewFinder"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/circle_button_background"
+        android:contentDescription="@string/switch_content_desc"
         app:srcCompat="@drawable/ic_camera_switch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

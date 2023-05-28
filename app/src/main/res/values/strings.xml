@@ -18,7 +18,10 @@
     <string name="gallery_button_text">Gallery</string>
     <string name="camera_button_text">Camera</string>
 
-    <string name="loading_text">Loading...</string>
+    <string name="loading_text">Loading…</string>
+
+    <string name="camera_content_desc">Camera</string>
+    <string name="switch_content_desc">Switch</string>
 
     <string name="story_iv_desc">Story Image</string>
     <string name="title_activity_maps">MapsActivity</string>
